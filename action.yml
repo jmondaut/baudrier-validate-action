@@ -1,0 +1,26 @@
+# Used from harness repositories as:
+#   uses: jmondaut/baudrier-validate-action@v1
+# This folder is published as the public repository jmondaut/baudrier-validate-action. The action installs the
+# `baudrier` CLI from PyPI (no token, no access to any private repository) and validates the caller's harnesses.
+name: Baudrier validate
+description: Validate every harness.yaml and SKILL.md in this repository
+inputs:
+  version:
+    description: Version of the baudrier CLI to install from PyPI
+    required: false
+    default: "0.2.0"
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+    - name: Install baudrier
+      shell: bash
+      env:
+        VERSION: ${{ inputs.version }}
+      run: pip install "baudrier==${VERSION}"
+    - name: Validate harnesses
+      shell: bash
+      # Runs from the caller's workspace root; exits 1 (failing the job) on any error.
+      run: baudrier validate .
