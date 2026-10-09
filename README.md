@@ -17,7 +17,7 @@ The CLI version defaults to the one this action release was cut for. Pin another
 ```yaml
 - uses: jmondaut/baudrier-validate-action@v1
   with:
-    version: 0.2.0
+    version: 0.3.1
 ```
 
 Pin the action itself to a release tag (or a full commit SHA).
